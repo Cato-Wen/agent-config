@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "mcp": {
+    "atlassian": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/sse"],
+      "enabled": true
+    }
+  },
+
+  "agent": {
+    "analyst-agent": {
+      "description": "Digest product requirements (Jira tickets), perform codebase analysis, and produce structured technical/business analysis.",
+      "mode": "subagent",
+      "model": "anthropic/claude-sonnet-4-5",
+      "temperature": 0.2,
+      "prompt": "{file:.opencode/agents/analyst-agent.md}",
+      "tools": {
+        "atlassian_*": true,
+        "grep": true,
+        "read": true,
+        "glob": true,
+        "skill": true,
+        "list": true,
+        "write": false,
+        "edit": false,
+        "bash": false,
+        "patch": false
+      },
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "webfetch": "deny"
+      }
+    }
+  },
+
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
+  },
+
+  "instructions": [
+    "AGENTS.md"
+  ]
+}
